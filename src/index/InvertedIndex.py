@@ -32,8 +32,8 @@ class InvertedIndex(MRJob):
     def reducer(self, word, files):
         lFiles = list(files)
         fileTimes = [(x, timesMap[(x, word)]) for x in lFiles]
-        yield (word, len(lFiles)), list(set((fileTimes)))
-        # yield (word, len(lFiles)), list(set(lFiles))
+        # yield (word, len(lFiles)), list(set((fileTimes)))
+        yield word, list(set(fileTimes))
 
 if __name__ == '__main__':
     InvertedIndex.run()
