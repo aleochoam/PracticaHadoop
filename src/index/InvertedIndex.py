@@ -2,9 +2,24 @@ import os
 import re
 import unicodedata
 
+from pymongo import MongoClient
 from mrjob.job import MRJob
 
+
+databaseName = "bigdata"
+collectionName = "indice"
+
+client = null
+db     = null
+coll   = null
+
 timesMap = {}
+
+def initDB():
+    client = MongoClient()
+    db = client[databaseName]
+    coll = db[collectionName]
+
 
 def limpiar(line):
     line = line.lower()
@@ -33,7 +48,13 @@ class InvertedIndex(MRJob):
         lFiles = list(files)
         fileTimes = [(x, timesMap[(x, word)]) for x in lFiles]
         # yield (word, len(lFiles)), list(set((fileTimes)))
+
+        result = coll.insert_one(
+            {
+                word: list(set(fileTimes))
+            })
         yield word, list(set(fileTimes))
 
 if __name__ == '__main__':
+    initDB()
     InvertedIndex.run()
