@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import unicodedata
 
 from pymongo import MongoClient
@@ -63,6 +64,7 @@ class InvertedIndex(MRJob):
             json["docs"].append({"nombre" : x[0], "veces": x[1]})
 
         result = coll.insert_one(json);
+        print ("Subio uno", file=sys.stderr)
         yield word, newList
 
 if __name__ == '__main__':
