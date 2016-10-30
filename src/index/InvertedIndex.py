@@ -30,6 +30,12 @@ def limpiar(line):
 def elimina_tildes(s):
    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
+def getKey(item):
+    return item[1]
+
+def sortByTimes(oldList):
+    return sorted(oldList,key=getKey, reverse=True)
+
 class InvertedIndex(MRJob):
 
     def mapper(self, _, line):
@@ -47,13 +53,7 @@ class InvertedIndex(MRJob):
     def reducer(self, word, files):
         lFiles = list(files)
         fileTimes = [(x, timesMap[(x, word)]) for x in lFiles]
-        # yield (word, len(lFiles)), list(set((fileTimes)))
-
-        # result = coll.insert_one(
-        #     {
-        #         word: list(set(fileTimes))
-        #     })
-        yield word, list(set(fileTimes))
+        yield word, sortByTimes(list(set(fileTimes)))
 
 if __name__ == '__main__':
     initDB()
