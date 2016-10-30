@@ -9,9 +9,9 @@ from mrjob.job import MRJob
 databaseName = "bigdata"
 collectionName = "indice"
 
-client = null
-db     = null
-coll   = null
+client = None
+db     = None
+coll   = None
 
 timesMap = {}
 
@@ -49,10 +49,10 @@ class InvertedIndex(MRJob):
         fileTimes = [(x, timesMap[(x, word)]) for x in lFiles]
         # yield (word, len(lFiles)), list(set((fileTimes)))
 
-        result = coll.insert_one(
-            {
-                word: list(set(fileTimes))
-            })
+        # result = coll.insert_one(
+        #     {
+        #         word: list(set(fileTimes))
+        #     })
         yield word, list(set(fileTimes))
 
 if __name__ == '__main__':

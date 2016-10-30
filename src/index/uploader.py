@@ -1,5 +1,15 @@
 import sys
 
+databaseName = "bigdata"
+collectionName = "indice"
+
+
+def initDB():
+    client = MongoClient()
+    db = client[databaseName]
+    coll = db[collectionName]
+
+
 def readfile(name):
     file = open(name, 'r')
     for line in file:
@@ -7,10 +17,14 @@ def readfile(name):
         upload(pair)
 
 def upload(pair):
-    //Subir a la base de datos
-
+    # print( "Subiendo {\n" + pair[0]+ " : " + pair[1] + "\n}")
+    result = coll.insert_one(
+         {
+            word: list(set(fileTimes))
+         })
 
 def main():
+    initDB()
     readfile(sys.argv[1])
 
 if __name__ == '__main__':
