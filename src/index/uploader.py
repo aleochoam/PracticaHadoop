@@ -1,8 +1,12 @@
+from pymongo import MongoClient
 import sys
 
 databaseName = "bigdata"
 collectionName = "indice"
 
+client = null
+db = null
+coll = null
 
 def initDB():
     client = MongoClient()
