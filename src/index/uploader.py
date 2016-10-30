@@ -1,35 +1,21 @@
 from pymongo import MongoClient
 import sys
 
-databaseName = "bigdata"
-collectionName = "indice"
-
-client = null
-db = null
-coll = null
-
-def initDB():
+def main():
     client = MongoClient()
-    db = client[databaseName]
-    coll = db[collectionName]
+    db = client.bigdata
+    coll = db.indice
 
-
-def readfile(name):
-    file = open(name, 'r')
+    file = open(sys.argv[1], 'r')
     for line in file:
         pair = line.split('\t', 1)
-        upload(pair)
-
-def upload(pair):
-    # print( "Subiendo {\n" + pair[0]+ " : " + pair[1] + "\n}")
-    result = coll.insert_one(
+        result = coll.insert_one(
          {
             word: list(set(fileTimes))
          })
 
-def main():
-    initDB()
-    readfile(sys.argv[1])
+    file.close()
+
 
 if __name__ == '__main__':
     main()
