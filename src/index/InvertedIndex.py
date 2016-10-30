@@ -53,7 +53,17 @@ class InvertedIndex(MRJob):
     def reducer(self, word, files):
         lFiles = list(files)
         fileTimes = [(x, timesMap[(x, word)]) for x in lFiles]
-        yield word, sortByTimes(list(set(fileTimes)))
+
+        newList = sortByTimes(list(set(fileTimes)))
+        json = {
+            "Palabra" : word,
+            "docs" : []
+        }
+        for x in newList:
+            json["docs"].append({"nombre" : x[0], "veces": x[1]})
+
+        result = coll.insert_one(json);
+        yield word, newList
 
 if __name__ == '__main__':
     initDB()
