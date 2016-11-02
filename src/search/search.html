@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<html>
+
+<body>
+    <p>Buscar:</p>
+    <form action="javascript:openPage();" method="post" enctype="text/plain">
+        <input type="text" placeholder="Busqueda" id="query" name="searchQuery">
+        <input type="submit" name="Search">
+    </form>
+    <div id="results">
+    </div>
+</body>
+<script type="text/javascript">
+function openPage() {
+    var query = document.getElementById("query").value;
+    $.ajax({
+        type: 'POST',
+        url: 'query.php',
+        data: {query: query}
+    }).done(function(data) {
+        console.log(data);
+        $('#results').children("a").remove();
+        var resultsSearch = JSON.parse(data);
+    	displayData(resultsSearch);
+    });
+}
+
+function displayData(data) {
+    console.log(data);
+    for (var $i = 0; $i < 10; $i++) {
+	if(data[$i] != null){
+            html = "<a href='http://10.131.137.230/ebooks/" + data[$i]+ "'>";
+       	    html += "<p>" + ($i+1) + ". " + data[$i] + "</p>";
+       	    html += '</a>';
+            $('#results').append(html);
+	}
+    }
+}
+</script>
+
+</html>
