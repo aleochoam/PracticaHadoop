@@ -9,10 +9,19 @@ def main():
     file = open(sys.argv[1], 'r')
     for line in file:
         pair = line.split('\t', 1)
-        result = coll.insert_one(
-         {
-            word: list(set(fileTimes))
-         })
+        pair1 = pair[1].split(", ")
+        for x in pair1:
+            print(x + "ESTO")
+        # result = coll.insert_one(
+        #  {
+        #     "Palabra" : pair[0],
+        #     "docs" : [
+        #         {
+        #             "nombre":
+        #         }
+        #     ]
+        #     pair[0]: pair[1]
+        #  })
 
     file.close()
 
